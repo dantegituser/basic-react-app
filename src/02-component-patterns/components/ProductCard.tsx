@@ -2,50 +2,48 @@ import styles from '../styles/styles.module.css'
 
 import { useProduct } from '../hooks/useProduct';
 import {  createContext, ReactElement } from 'react';
-import { onChangeArgs, Product, ProductContextProps } from '../interfaces/interfaces';
+import { InitialValues, onChangeArgs, Product, ProductCardHandlers, ProductContextProps } from '../interfaces/interfaces';
 
 export const ProductContext = createContext({} as ProductContextProps)
 const {Provider} = ProductContext;
 
-// interface ProductButtonsProps {
-//     increaseBy: (value: number) => void;
-//     counter: number;
-// }
-
-// export const ProductButtons = ({increaseBy, counter}:ProductButtonsProps) => {
-
 export interface Props{
-  children?: ReactElement | ReactElement[];
+  // children?: ReactElement | ReactElement[];
+  children:(args:ProductCardHandlers) => JSX.Element;
   product: Product;
   className?: string;
   style?: React.CSSProperties ;
   onChange?:(args: onChangeArgs) => void;
   value?:number;
+  initialValues?:InitialValues;
 }
 
 
-export const ProductCard = ({children, product, className, style, onChange, value}: Props) => {
+export const ProductCard = ({children, product, className, style, onChange, value, initialValues}: Props) => {
     
-    const {counter, increaseBy} = useProduct({onChange, product, value});
+    const {counter, increaseBy, maxCount, isMaxCountReached, reset} = useProduct({onChange, product, value, initialValues});
 
+    // console.log("counter: ", counter);
+    
   return (
     <Provider value={{
-        counter, increaseBy, product
+        counter, increaseBy, product, maxCount
     }}>
 
         <div className={`${styles.productCard} ${className}`} style={style}>
 
-            {/* <img src="./coffee-mug.png" alt="coffe mug" className={styles.productImg} /> */}
-            {children}
-            {/* <ProductImage img={product.img} />
-            <ProductTitle title={product.title} />
-        <ProductButtons counter={counter} increaseBy={increaseBy} />        */}
+            { 
+            children({
+              count: counter,
+              isMaxCountReached,
+              maxCount:initialValues?.maxCount,
+              product,
+              increaseBy,
+              reset
+            }) 
+            }
             
         </div>
     </Provider>
   )
 }
-
-// ProductCard.Buttons = ProductButtons;
-// ProductCard.Title = ProductTitle;
-// ProductCard.Image = ProductImage;
