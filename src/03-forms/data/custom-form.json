@@ -1,0 +1,49 @@
+[
+    {
+        "type": "input",
+        "name":"firstName",
+        "placeholder": "Nombre",
+        "label":"first name",
+        "value": "",
+        "validations":[
+            {
+                "type":"required"
+            },
+            {
+                "type":"minLength",
+                "value":5
+            }
+        ]
+    },
+    {
+        "type": "input",
+        "name":"lastName",
+        "placeholder": "Apellido",
+        "label":"last name",
+        "value": ""
+    },
+    {
+        "type": "email",
+        "name":"email",
+        "placeholder": "email",
+        "label":"email",
+        "value": "",
+        "validations":[
+            {
+                "type":"required"
+            },
+            {
+                "type":"email"
+            }
+        ]
+    },
+    {
+        "type": "select",
+        "name":"favoriteGame",
+        "label":"favorite game",
+        "value": "",
+        "options":[
+            { "id": 1,"label":"Sper smash"}, { "id": 2,"label":"Metal gear"}, { "id": 3,"label":"resident evil"}
+        ]
+    }
+]
